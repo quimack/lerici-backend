@@ -1,14 +1,12 @@
 import express from "express";
 import cors from "cors";
 import { MercadoPagoConfig, Preference } from "mercadopago";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const client = new MercadoPagoConfig({
-  accessToken:
-    process.env.MP_ACCESS_TOKEN,
+  accessToken: process.env.MP_ACCESS_TOKEN,
 });
 
 const app = express();
@@ -23,16 +21,36 @@ app.get("/", (req, res) => {
 
 app.post("/create_preference", async (req, res) => {
   try {
-    console.log(req.body);
+    const orderData = req.body;
+    let items = [];
+
+    for (const item of orderData) {
+      const title = item.name;
+      const quantity = Number(item.quantity);
+      const unitPrice = Number(item.price);
+   
+      if (
+        !title ||
+        !quantity ||
+        isNaN(quantity) ||
+        !unitPrice ||
+        isNaN(unitPrice)
+      ) {
+        return res.status(400).send("Invalid request body");
+      }
+
+      items.push({
+        title,
+        quantity,
+        unit_price: unitPrice,
+        currency_id: "ARS"
+      })
+      console.log(item);
+    }
+
+
     const body = {
-      items: [
-        {
-          title: req.body.title,
-          quantity: Number(req.body.quantity),
-          unit_price: Number(req.body.price),
-          currency_id: "ARS",
-        },
-      ],
+      items
       //   back_urls: {
       //     success: "https://www.linkedin.com/in/macarenaquiven/",
       //     failure: "https://www.youtube.com/",
@@ -44,16 +62,7 @@ app.post("/create_preference", async (req, res) => {
     const preference = new Preference(client);
 
     const result = await preference.create({
-      body: {
-        items: [
-          {
-            title: "manzana",
-            quantity: 1,
-            unit_price: 2,
-            currency_id: "ARS",
-          },
-        ],
-      },
+      body
     });
 
     res.json({
