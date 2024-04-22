@@ -1,14 +1,18 @@
 import express from "express";
 import cors from "cors";
 import { MercadoPagoConfig, Preference } from "mercadopago";
+import dotenv from "dotenv"
+
+dotenv.config();
+
 
 const client = new MercadoPagoConfig({
   accessToken:
-    "TEST-2043141217323799-041916-24f396a92d90b973b64df7ae573a496c-1201866",
+    process.env.MP_ACCESS_TOKEN,
 });
 
 const app = express();
-const port = 3000;
+// const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -63,6 +67,6 @@ app.post("/create_preference", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log("Server running ok");
-});
+// app.listen(port, () => {
+//   console.log("Server running ok");
+// });
