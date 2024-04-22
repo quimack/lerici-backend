@@ -12,7 +12,7 @@ const client = new MercadoPagoConfig({
 });
 
 const app = express();
-// const port = 3000;
+const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -67,6 +67,6 @@ app.post("/create_preference", async (req, res) => {
   }
 });
 
-// app.listen(port, () => {
-//   console.log("Server running ok");
-// });
+app.listen(port, () => {
+  console.log("Server running ok");
+});
