@@ -28,7 +28,7 @@ app.post("/create_preference", async (req, res) => {
       const title = item.name;
       const quantity = Number(item.quantity);
       const unitPrice = Number(item.price);
-   
+
       if (
         !title ||
         !quantity ||
@@ -43,26 +43,24 @@ app.post("/create_preference", async (req, res) => {
         title,
         quantity,
         unit_price: unitPrice,
-        currency_id: "ARS"
-      })
-      console.log(item);
+        currency_id: "ARS",
+      });
     }
 
-
     const body = {
-      items
-      //   back_urls: {
-      //     success: "https://www.linkedin.com/in/macarenaquiven/",
-      //     failure: "https://www.youtube.com/",
-      //     pending: "https://www.instagram.com/",
-      //   },
-      //   auto_return: "approved",
+      items,
+      statement_descriptor: "Lerici Boots",
+      back_urls: {
+        success: "http://lericiboots/exito",
+        failure: "http://lericiboots/falla",
+      },
+      auto_return: "approved",
     };
 
     const preference = new Preference(client);
 
     const result = await preference.create({
-      body
+      body,
     });
 
     res.json({
