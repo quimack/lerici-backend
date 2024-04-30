@@ -51,9 +51,9 @@ app.post("/create_preference", async (req, res) => {
       items,
       statement_descriptor: "Lerici Boots",
       back_urls: {
-        success: "https://lericiboots/exito",
-        failure: "https://lericiboots/falla",
-        pending: "https://lericiboots/resumen"
+        success: "https://lericiboots.com.ar/exito",
+        failure: "https://lericiboots.com.ar/falla",
+        pending: "https://lericiboots.com.ar/resumen"
       },
       auto_return: "approved",
     };
